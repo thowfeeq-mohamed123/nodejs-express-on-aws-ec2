@@ -4,7 +4,7 @@ const port = 3000;
 
 
 app.get('/', (req, res, next)=>{
-    res.send('Hello Mohamed Thowfeeq....')
+    res.send('Hello world....')
 })
 
 app.listen(port, ()=>{
