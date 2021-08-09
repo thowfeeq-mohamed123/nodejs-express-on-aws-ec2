@@ -1,12 +1,26 @@
-const express = require('express');
-const app = express();
-const port = 3000;
+window = {}
+
+const express = require('express')
+const bodyParser = require('body-parser')
+const app = express()
+const mongoose = require('mongoose')
+
+const userRouter = require('./routes/user')
+
+mongoose.connect('mongodb://localhost:27017/unitTesting', { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('Datebase connected'))
+  .catch(error => console.log(error));
+
+app.use(bodyParser.json())
 
 
-app.get('/', (req, res, next)=>{
-    res.send('Hello world....')
+app.get('/', (_, res) => {
+  res.json({ message: "hello there" })
 })
 
-app.listen(port, ()=>{
-    console.log(`Express running on http://localhost:${port}`);
-})
+
+// routers
+
+app.use('/user', userRouter)
+
+app.listen(3000, () => console.log('server started'))
