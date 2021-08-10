@@ -3,29 +3,97 @@ const request = require('request');
 const { TESTING_URL } = require('../../../config/config');
 
 describe('get user list API', () => {
-    describe('No users found error', () => {
 
-        it('Status', done => {
-            request.get(`${TESTING_URL}/user/users`, {}, (_, response) => {
-                expect(response.statusCode).to.equal(400)
-                done()
-            })
-        })
-
-        it('Content', done => {
-            request.get(`${TESTING_URL}/user/users`, {}, (_, response) => {
-                const body = JSON.parse(response.body)
-                expect(body.errors).to.equal('Users not found')
-                done()
-            })
+    it('No users list', done => {
+        request.get(`${TESTING_URL}/user/users`, {}, (_, response) => {
+            const body = JSON.parse(response.body);
+            expect(body.message.length).to.equal(0);
+            done();
         })
     })
 
+    it('Actual users lists', done => {
+        request.get(`${TESTING_URL}/user/users`, {}, (_, response) => {
+            expect(response.statusCode).to.equal(200);
+            done();
+        })
+    })
 
-    describe('Actual users lists', () => {
+})
 
-        it('Status & Content', done => {
-            request.get(`${TESTING_URL}/user/users`, {}, (_, response) => {
+
+describe('User API', () => {
+    describe('CREATE USER', () => {
+        describe('Create user validation ERROR', () => {
+            describe('Create user missing field', () => {
+                const payload = {
+                    firstName: '',
+                    lastName: 'thowfeeq 111',
+                    email: 'mohamed123@gmail.com',
+                    password: 'mohamed@123',
+                    employeeNo: '456'
+                }
+
+                it('Status', done => {
+                    request.post(`${TESTING_URL}/user/users`, {
+                        json: payload
+                    }, (_, response) => {
+                        expect(response.statusCode).to.equal(404)
+                        done()
+                    })
+                })
+
+                it('Message', done => {
+                    request.post(`${TESTING_URL}/user/users`, {
+                        json: payload
+                    }, (_, response) => {
+                        expect(response.body.errors.firstName[0]).to.equal('First Name is required')
+                        done()
+                    })
+                })
+            })
+
+            
+            describe('Create user duplicate', () => {
+                const payload = {
+                    firstName: 'Mohamed 111',
+                    lastName: 'thowfeeq 111',
+                    email: 'mohamed123@gmail.com',
+                    password: 'mohamed@123',
+                    employeeNo: '456'
+                }
+
+                it('Status', done => {
+                    request.post(`${TESTING_URL}/user/users`, {
+                        json: payload
+                    }, (_, response) => {
+                        expect(response.statusCode).to.equal(404)
+                        done()
+                    })
+                })
+
+                it('Message', done => {
+                    request.post(`${TESTING_URL}/user/users`, {
+                        json: payload
+                    }, (_, response) => {
+                        expect(response.body.errors.duplicate[0]).to.equal('User with this email id already exist')
+                        done()
+                    })
+                })
+            })
+        })
+
+        it('Create user SUCCESS', done => {
+            request.post(`${TESTING_URL}/user/users`, {
+                json: {
+                    firstName: 'Mohamed 111',
+                    lastName: 'thowfeeq 111',
+                    email: 'mohamed1266@gmail.com',
+                    password: 'mohamed@123',
+                    employeeNo: '456'
+                }
+            }, (_, response) => {
+                console.log(response.statusCode)
                 expect(response.statusCode).to.equal(200)
                 done()
             })

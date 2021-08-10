@@ -4,10 +4,10 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
 const mongoose = require('mongoose')
-
+const db = require('./config/config');
 const userRouter = require('./routes/user')
 
-mongoose.connect('mongodb://localhost:27017/unitTesting', { useNewUrlParser: true, useUnifiedTopology: true })
+db.connect()
   .then(() => console.log('Datebase connected'))
   .catch(error => console.log(error));
 

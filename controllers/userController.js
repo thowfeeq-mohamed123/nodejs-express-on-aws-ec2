@@ -10,10 +10,10 @@ module.exports.getAllUsers = async (req, res) => {
         if (usersList && usersList.length > 0) {
             return res.status(200).json({ message: usersList });
         } else {
-            return res.status(400).json({ errors: 'Users not found' })
+            return res.status(200).json({ message: [] })
         }
     } catch (err) {
-        console.log(err)
+        return err;
     }
 }
 
