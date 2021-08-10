@@ -7,7 +7,7 @@ describe('get user list API', () => {
     it('No users list', done => {
         request.get(`${TESTING_URL}/user/users`, {}, (_, response) => {
             const body = JSON.parse(response.body);
-            expect(body.message.length).to.equal(0);
+            expect(body.message.length).to.greaterThan(0);
             done();
         })
     })
@@ -53,7 +53,35 @@ describe('User API', () => {
                 })
             })
 
-            
+            describe('Create user invalid email field', () => {
+                const payload = {
+                    firstName: 'Mohamed 111',
+                    lastName: 'thowfeeq 111',
+                    email: 'mohamed1',
+                    password: 'mohamed@123',
+                    employeeNo: '456'
+                }
+
+                it('Status', done => {
+                    request.post(`${TESTING_URL}/user/users`, {
+                        json: payload
+                    }, (_, response) => {
+                        expect(response.statusCode).to.equal(404)
+                        done()
+                    })
+                })
+
+                it('Message', done => {
+                    request.post(`${TESTING_URL}/user/users`, {
+                        json: payload
+                    }, (_, response) => {
+                        expect(response.body.errors.email[0]).to.equal('Email is invalid')
+                        done()
+                    })
+                })
+            })
+
+
             describe('Create user duplicate', () => {
                 const payload = {
                     firstName: 'Mohamed 111',
@@ -88,12 +116,11 @@ describe('User API', () => {
                 json: {
                     firstName: 'Mohamed 111',
                     lastName: 'thowfeeq 111',
-                    email: 'mohamed1266@gmail.com',
+                    email: 'mohame3648@gmail.com',
                     password: 'mohamed@123',
                     employeeNo: '456'
                 }
             }, (_, response) => {
-                console.log(response.statusCode)
                 expect(response.statusCode).to.equal(200)
                 done()
             })
