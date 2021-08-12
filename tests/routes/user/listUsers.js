@@ -116,7 +116,7 @@ describe('User API', () => {
                 json: {
                     firstName: 'Mohamed 111',
                     lastName: 'thowfeeq 111',
-                    email: 'mohame3648@gmail.com',
+                    email: 'mohame36481223@gmail.com',
                     password: 'mohamed@123',
                     employeeNo: '456'
                 }
