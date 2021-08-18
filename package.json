@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "./node_modules/.bin/nodemon app.js",
-    "test": "./node_modules/.bin/mocha 'tests/**/*.js'"
+    "test": "nyc mocha ./tests/**/*.js --exit --insepct=0.0.0.0:3000 --timeout 120000"
   },
   "repository": {
     "type": "git",
@@ -26,7 +26,10 @@
     "micro-validator": "0.0.5",
     "mocha": "^9.0.3",
     "mongoose": "^5.13.5",
+    "node-fetch": "^2.6.1",
     "nodemon": "^2.0.12",
+    "nyc": "^15.1.0",
+    "redis": "^3.1.2",
     "request": "^2.88.2"
   }
 }

@@ -3,9 +3,8 @@ window = {}
 const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
-const mongoose = require('mongoose')
 const db = require('./config/config');
-const userRouter = require('./routes/user')
+const userRouter = require('./routes/user');
 
 db.connect()
   .then(() => console.log('Datebase connected'))
