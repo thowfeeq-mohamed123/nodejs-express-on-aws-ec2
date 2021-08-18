@@ -20,6 +20,6 @@ app.get('/', (_, res) => {
 
 // routers
 
-app.use('/user', userRouter)
+app.use('/api/user', userRouter)
 
 app.listen(3000, () => console.log('server started'))
